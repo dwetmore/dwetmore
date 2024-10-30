@@ -1,4 +1,4 @@
-- 👋 Hi, I’m @dwetmore
+- 👋 Hi, I’m David 
 - 👀 I’m interested in contributing to the open-source community
 - 🌱 I’m currently learning python, K8s, and AI Platform Security
 - 💞️ I’m looking to collaborate on AI/ML projects, but open to any!
