@@ -6,3 +6,9 @@ resources:
 patchesStrategicMerge:
 - patch-configmap-ollama.yaml
 - patch-ingress-host.yaml
+
+resources:
+  - openwebui-pvc.yaml
+  - openwebui-deploy.yaml
+  - openwebui-svc.yaml
+  - openwebui-ing.yaml
