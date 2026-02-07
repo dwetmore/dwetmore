@@ -1,14 +1,14 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-resources:
-- ../../base
-- ollama.yaml
-patchesStrategicMerge:
-- patch-configmap-ollama.yaml
-- patch-ingress-host.yaml
 
 resources:
+  - ../../base
+  - ollama.yaml
   - openwebui-pvc.yaml
   - openwebui-deploy.yaml
   - openwebui-svc.yaml
   - openwebui-ing.yaml
+
+patchesStrategicMerge:
+  - patch-configmap-ollama.yaml
+  - patch-ingress-host.yaml
