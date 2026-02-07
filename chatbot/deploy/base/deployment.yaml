@@ -16,6 +16,7 @@ spec:
       containers:
       - name: chatbot
         image: localhost:32000/chatbot:0.2
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         envFrom:
