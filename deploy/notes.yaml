@@ -86,7 +86,7 @@ metadata:
   namespace: notes
 spec:
   rules:
-    - host: notes.local
+    - host: notes.172.17.93.185.nip.io
       http:
         paths:
           - path: /
