@@ -1,12 +1,18 @@
-- 👋 Hi, I’m David 
-- 👀 I’m interested in Kubernetes and contributing to the open-source community
-- 🌱 I’m currently learning K8s, Linux, and Python
-- 💞️ I’m looking to collaborate on K8s, AI/ML projects, but open to any!
-- 📫 How to reach me davida.wetmore@gmail.com
-- 😄 Pronouns: ...
-- ⚡ Fun fact: I am an avid golfer
+# David Wetmore — Portfolio
 
-<!---
-dwetmore/dwetmore is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
-You can click the Preview link to take a look at your changes.
---->
+Welcome to my portfolio of Kubernetes- and AI-adjacent projects. Below are three focused repos showcasing GitOps, application development, and deployment fundamentals.
+
+## Chatbot GitOps
+GitOps-managed deployment of OpenWebUI + Ollama on MicroK8s using ArgoCD.
+
+- Repo: [chatbot/deploy](chatbot/deploy)
+
+## Chatbot App
+FastAPI-based chatbot application source code.
+
+- Repo: [chatbot/app](chatbot/app)
+
+## Notes App
+Simple notes application with a deployment manifest for quick onboarding.
+
+- Repo: [projects/notes-app](projects/notes-app)
