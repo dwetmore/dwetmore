@@ -6,3 +6,12 @@ metadata:
 spec:
   rules:
   - host: chat.172.17.93.185.nip.io
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: chatbot
+            port:
+              number: 80
