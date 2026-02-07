@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: notes-app
-          image: localhost:32000/notes-app:0.1
+          image: localhost:32000/notes-app:0.2
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
