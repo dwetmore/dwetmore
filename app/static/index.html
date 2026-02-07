@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Notes App</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; max-width: 900px; margin: 40px auto; padding: 0 16px; }
+    h1 { margin: 0 0 6px; }
+    .sub { color: #555; margin: 0 0 18px; }
+    .card { border: 1px solid #ddd; border-radius: 10px; padding: 16px; margin: 12px 0; }
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    input, textarea { width: 100%; padding: 10px; border: 1px solid #bbb; border-radius: 8px; font-size: 14px; }
+    textarea { min-height: 100px; resize: vertical; }
+    button { padding: 10px 14px; border: 0; border-radius: 8px; cursor: pointer; font-weight: 600; }
+    .btn { background: #111; color: #fff; }
+    .danger { background: #b00020; color: #fff; }
+    .note-title { font-weight: 700; margin: 0 0 6px; }
+    .note-body { margin: 0; white-space: pre-wrap; color: #222; }
+    .meta { color: #666; font-size: 12px; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap: 12px; }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div>
+      <h1>Notes</h1>
+      <p class="sub">A tiny FastAPI + Kubernetes demo app.</p>
+    </div>
+    <button class="btn" onclick="refreshNotes()">Refresh</button>
+  </div>
+
+  <div class="card">
+    <div class="row">
+      <div>
+        <label class="meta">Title</label>
+        <input id="title" placeholder="e.g., Demo checklist" />
+      </div>
+      <div>
+        <label class="meta">Body</label>
+        <textarea id="body" placeholder="Type something..."></textarea>
+      </div>
+    </div>
+    <div style="margin-top:12px; display:flex; gap:10px;">
+      <button class="btn" onclick="createNote()">Add note</button>
+      <button onclick="clearForm()">Clear</button>
+    </div>
+    <p id="msg" class="meta" style="margin-top:10px;"></p>
+  </div>
+
+  <div id="notes"></div>
+
+<script>
+async function api(path, opts={}) {
+  const r = await fetch(path, { ...opts, headers: { "Content-Type": "application/json", ...(opts.headers || {}) } });
+  if (!r.ok) {
+    const t = await r.text();
+    throw new Error(`${r.status} ${r.statusText}: ${t}`);
+  }
+  return r.json();
+}
+
+function clearForm() {
+  document.getElementById("title").value = "";
+  document.getElementById("body").value = "";
+}
+
+async function createNote() {
+  const title = document.getElementById("title").value.trim();
+  const body = document.getElementById("body").value.trim();
+  const msg = document.getElementById("msg");
+  msg.textContent = "";
+
+  if (!title || !body) {
+    msg.textContent = "Title and body are required.";
+    return;
+  }
+
+  try {
+    await api("/api/notes", { method: "POST", body: JSON.stringify({ title, body }) });
+    clearForm();
+    await refreshNotes();
+    msg.textContent = "Saved.";
+  } catch (e) {
+    msg.textContent = String(e);
+  }
+}
+
+async function deleteNote(id) {
+  if (!confirm(`Delete note ${id}?`)) return;
+  try {
+    await api(`/api/notes/${id}`, { method: "DELETE" });
+    await refreshNotes();
+  } catch (e) {
+    alert(String(e));
+  }
+}
+
+function renderNotes(items) {
+  const el = document.getElementById("notes");
+  if (!items.length) {
+    el.innerHTML = `<div class="card"><p class="meta">No notes yet. Add one above.</p></div>`;
+    return;
+  }
+  el.innerHTML = items.map(n => `
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; gap:12px; align-items:flex-start;">
+        <div style="flex:1;">
+          <p class="note-title">${escapeHtml(n.title)} <span class="meta">#${n.id}</span></p>
+          <p class="note-body">${escapeHtml(n.body)}</p>
+        </div>
+        <button class="danger" onclick="deleteNote(${n.id})">Delete</button>
+      </div>
+    </div>
+  `).join("");
+}
+
+function escapeHtml(s) {
+  return s.replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+async function refreshNotes() {
+  try {
+    const items = await api("/api/notes");
+    renderNotes(items);
+  } catch (e) {
+    document.getElementById("notes").innerHTML = `<div class="card"><p class="meta">Error: ${escapeHtml(String(e))}</p></div>`;
+  }
+}
+
+refreshNotes();
+</script>
+</body>
+</html>
