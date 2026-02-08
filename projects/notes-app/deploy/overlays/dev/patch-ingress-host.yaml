@@ -1,0 +1,8 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: notes-app
+  namespace: notes
+spec:
+  rules:
+    - host: notes.172.17.93.185.nip.io
