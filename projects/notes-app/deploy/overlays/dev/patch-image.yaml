@@ -1,0 +1,11 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app
+  namespace: notes
+spec:
+  template:
+    spec:
+      containers:
+        - name: notes-app
+          image: localhost:32000/notes-app:0.2
