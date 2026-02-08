@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes-app
+  namespace: notes
+spec:
+  template:
+    spec:
+      securityContext:
+        # Make the mounted volume group-writable for the pod
+        fsGroup: 65534
+        fsGroupChangePolicy: "OnRootMismatch"
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: notes-app
+          securityContext:
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
