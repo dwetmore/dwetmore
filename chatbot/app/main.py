@@ -1,19 +1,32 @@
+"""FastAPI app exposing a minimal chat UI and Ollama-backed API."""
+
+from __future__ import annotations
+
+import logging
 import os
+from typing import Any
+
+import httpx
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
-import httpx
+
+logger = logging.getLogger(__name__)
 
 app = FastAPI()
 
 OLLAMA_BASE_URL = os.getenv("OLLAMA_BASE_URL", "http://ollama:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "llama3.2")
 
+
 @app.get("/healthz")
-def healthz():
+def healthz() -> dict[str, str]:
+    """Return a basic health check payload."""
     return {"status": "ok"}
 
+
 @app.get("/", response_class=HTMLResponse)
-def index():
+def index() -> str:
+    """Serve a tiny HTML UI for ad-hoc chat prompts."""
     return """
 <!doctype html>
 <html>
@@ -73,8 +86,10 @@ async function send() {
 </html>
 """
 
+
 @app.post("/api/chat")
-async def chat(payload: dict):
+async def chat(payload: dict[str, Any]) -> dict[str, str]:
+    """Forward a prompt to Ollama and return the response."""
     prompt = (payload.get("prompt") or "").strip()
     if not prompt:
         return {"error": "prompt is required"}
@@ -82,8 +97,12 @@ async def chat(payload: dict):
     req = {"model": OLLAMA_MODEL, "prompt": prompt, "stream": False}
 
     async with httpx.AsyncClient(timeout=180.0) as client:
-        r = await client.post(f"{OLLAMA_BASE_URL}/api/generate", json=req)
-        r.raise_for_status()
-        data = r.json()
+        try:
+            response = await client.post(f"{OLLAMA_BASE_URL}/api/generate", json=req)
+            response.raise_for_status()
+        except httpx.HTTPError:
+            logger.exception("Ollama request failed")
+            raise
+        data = response.json()
 
     return {"model": data.get("model"), "response": data.get("response", "")}
