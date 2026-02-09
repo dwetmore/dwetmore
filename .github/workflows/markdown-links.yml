@@ -1,0 +1,30 @@
+name: Markdown Links
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  link-check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Gather markdown files
+        id: markdown
+        run: |
+          files=("README.md")
+          if [ -d docs ]; then
+            while IFS= read -r -d '' file; do
+              files+=("$file")
+            done < <(find docs -name '*.md' -print0)
+          fi
+          printf 'files=%s\n' "${files[*]}" >> "$GITHUB_OUTPUT"
+
+      - name: Check links
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --verbose --no-progress ${{ steps.markdown.outputs.files }}
