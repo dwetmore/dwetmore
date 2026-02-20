@@ -6,8 +6,6 @@ I build practical, well-documented software that blends AI-enabled apps with rel
 
 ### In this repo
 
-- **MicroK8s deploy helpers/manifests**: local deployment-related files in this portfolio repo.  
-  Path: [`deploy`](deploy)
 - **Portfolio index**: this project summary and links page.  
   Path: [`README.md`](README.md)
 
