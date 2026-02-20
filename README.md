@@ -6,17 +6,16 @@ I build practical, well-documented software that blends AI-enabled apps with rel
 
 ### In this repo
 
-- **Chatbot GitOps manifests**: Argo CD/Kustomize deployment for OpenWebUI + Ollama.  
-  Path: [`chatbot/deploy`](chatbot/deploy)
-- **Chatbot App**: FastAPI chatbot service source.  
-  Path: [`chatbot/app`](chatbot/app)
-- **Notes App subtree copy**: Notes app project files used in this portfolio repo.  
-  Path: [`projects/notes-app`](projects/notes-app)
+- **MicroK8s deploy helpers/manifests**: local deployment-related files in this portfolio repo.  
+  Path: [`deploy`](deploy)
+- **Portfolio index**: this project summary and links page.  
+  Path: [`README.md`](README.md)
 
 ### Workspace repos
 
 - **[argocd-apps](https://github.com/dwetmore/argocd-apps)**: App-of-apps bootstrap and workload Applications for Argo CD (chatbot, notes-app, GPU observability, space-invaders, cmatrix).
 - **[chatbot-gitops](https://github.com/dwetmore/chatbot-gitops)**: Standalone GitOps repo for chatbot stack on MicroK8s.
+- **[chatbot](https://github.com/dwetmore/chatbot)**: FastAPI chatbot application source.
 - **[cmatrix-web](https://github.com/dwetmore/cmatrix-web)**: Browser-based cmatrix image (Xvfb + x11vnc + noVNC).
 - **[gpu-observability-gitops](https://github.com/dwetmore/gpu-observability-gitops)**: GitOps GPU monitoring stack (DCGM exporter + Prometheus + Grafana + Loki).
 - **[notes-app](https://github.com/dwetmore/notes-app)**: FastAPI + PostgreSQL notes service with K8s manifests and tests.
