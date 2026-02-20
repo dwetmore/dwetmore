@@ -2,14 +2,7 @@
 
 I build practical, well-documented software that blends AI-enabled apps with reliable deployment workflows.
 
-## Project Catalog
-
-### In this repo
-
-- **Portfolio index**: this project summary and links page.  
-  Path: [`README.md`](README.md)
-
-### Workspace repos
+## Projects
 
 - **[argocd-apps](https://github.com/dwetmore/argocd-apps)**: App-of-apps bootstrap and workload Applications for Argo CD (chatbot, notes-app, GPU observability, space-invaders, cmatrix).
 - **[chatbot-gitops](https://github.com/dwetmore/chatbot-gitops)**: Standalone GitOps repo for chatbot stack on MicroK8s.
